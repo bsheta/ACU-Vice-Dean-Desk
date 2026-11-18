@@ -163,7 +163,18 @@
   function showToday() { dateInput.value = today(); renderDay(); }
   var lastWidgetMinute = '';
   function renderWidget(id, summary, items) {
-    byId(id + '-summary').textContent = summary;
+    var status = byId(id + '-summary');
+    status.textContent = '';
+    var match = /^(\d+) (.+)$/.exec(summary);
+    if (match) {
+      var count = document.createElement('strong');
+      count.className = 'widget-count';
+      count.textContent = match[1];
+      status.appendChild(count);
+      status.appendChild(document.createTextNode(' ' + match[2]));
+    } else {
+      status.textContent = summary;
+    }
     var list = byId(id);
     list.textContent = '';
     items.slice(0, 3).forEach(function (label) {
