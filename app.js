@@ -59,6 +59,9 @@
 
   function showPanel() {
     var requested = window.location.hash.slice(1);
+    var gadgetView = /(?:^|[?&])view=gadgets(?:&|$)/.test(window.location.search);
+    document.body.className = gadgetView && (!requested || requested === 'gadgets') ? 'gadgets-mode' :
+      gadgetView ? 'gadgets-detail' : '';
     var active = /^(rooms|teaching|exams|desk)$/.test(requested) ? requested : 'teaching';
     for (var i = 0; i < panels.length; i++) {
       var link = panels[i];

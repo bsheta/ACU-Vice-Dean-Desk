@@ -154,3 +154,55 @@ footer.shell { padding: 18px 0 28px; font-size: 13px; }
   .widgets { grid-template-columns: 1fr; }
   .widget { min-height: 0; }
 }
+
+
+.gadget-back, .gadgets-detail .gadgets-link, .gadgets-mode .gadgets-link { display: none; }
+.gadgets-detail .gadget-back { display: inline-block; }
+
+.gadgets-mode { background: #e7edf3; }
+.gadgets-mode .shell { width: calc(100% - 28px); max-width: 820px; }
+.gadgets-mode .masthead { min-height: 60px; padding: 12px 19%; }
+.gadgets-mode .identity strong { font-size: 17px; }
+.gadgets-mode .identity span { font-size: 13px; }
+.gadgets-mode .masthead img { height: 42px; }
+.gadgets-mode .faculty-logo { width: 42px; right: 4%; }
+.gadgets-mode .university-logo { width: 74px; left: 3%; }
+.gadgets-mode .hero {
+  padding: 15px 18px;
+  margin-top: 14px;
+  border-radius: 16px;
+}
+.gadgets-mode .hero .eyebrow, .gadgets-mode .hero p:last-child, .gadgets-mode .hero:after { display: none; }
+.gadgets-mode .hero h1 { font-size: 24px; margin: 0; }
+.gadgets-mode .hero .clock { inset-inline-end: 18px; inset-inline-start: auto; }
+.gadgets-mode .clock time { font-size: 24px; }
+.gadgets-mode .widgets {
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  grid-template-rows: repeat(2, minmax(128px, auto));
+  background: transparent;
+  border: 0;
+  padding: 0;
+  gap: 10px;
+  margin-top: 10px;
+}
+.gadgets-mode .widget { min-height: 0; padding: 12px; background: #f8fafc; border-radius: 16px; }
+.gadgets-mode .widget[data-widget=teaching] { grid-column: 1; grid-row: 1 / span 2; background: #f3f8ff; }
+.gadgets-mode .widget[data-widget=exams] { grid-column: 2; grid-row: 1; background: #fffaf1; }
+.gadgets-mode .widget[data-widget=rooms] { grid-column: 2; grid-row: 2; background: #f2faf6; }
+.gadgets-mode .widget-count { font-size: 34px; }
+.gadgets-mode .widget[data-widget=teaching] .widget-count { font-size: 42px; }
+.gadgets-mode .widget[data-widget=teaching] li { white-space: normal; overflow-wrap: anywhere; padding: 7px 0; }
+.gadgets-mode .widget:not([data-widget=teaching]) li:nth-child(n+2) { display: none; }
+.gadgets-mode .day-bar { justify-content: flex-end; margin: 8px 0 14px; }
+.gadgets-mode .language-switch { margin: 0; }
+.gadgets-mode .day-bar > label, .gadgets-mode #today, .gadgets-mode #day-label,
+.gadgets-mode .navigation, .gadgets-mode .panel, .gadgets-mode footer { display: none; }
+@media (max-width: 620px) {
+  .gadgets-mode .hero .clock { position: absolute; top: 50%; transform: translateY(-50%); margin: 0; }
+  .gadgets-mode .clock time { display: block; margin: 0; }
+}
+@media (max-width: 400px) {
+  .gadgets-mode .hero h1 { font-size: 19px; }
+  .gadgets-mode .widgets { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; }
+  .gadgets-mode .widget[data-widget] { grid-column: auto; grid-row: auto; }
+}
