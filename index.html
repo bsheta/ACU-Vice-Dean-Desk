@@ -17,19 +17,52 @@
     <section class="hero" aria-labelledby="term-title">
       <div>
         <p class="eyebrow">جامعة الأهرام الكندية · كلية الهندسة</p>
-        <h1 id="term-title">جداول خريف ٢٠٢٦</h1>
+        <h1 id="term-title">القاعات المتاحة اليوم</h1>
         <p>الفصل الدراسي الأول · العام الجامعي ٢٠٢٦–٢٠٢٧</p>
       </div>
       <div class="clock"><time id="clock" dir="ltr">--:--</time><span>توقيت القاهرة</span></div>
     </section>
 
     <nav class="navigation" aria-label="أقسام المكتب">
-      <a href="#teaching" data-panel="teaching" aria-current="page">جداول التدريس</a>
+      <a href="#rooms" data-panel="rooms" aria-current="page">القاعات المتاحة</a>
+      <a href="#teaching" data-panel="teaching">جداول التدريس</a>
       <a href="#exams" data-panel="exams">امتحانات منتصف الفصل</a>
       <a href="#desk" data-panel="desk">أدوات المكتب</a>
     </nav>
 
-    <section id="teaching" class="panel" aria-labelledby="teaching-title">
+    <section id="rooms" class="panel" aria-labelledby="rooms-title">
+      <div class="section-head">
+        <div>
+          <h2 id="rooms-title">القاعات بلا حجز ظاهر</h2>
+          <p>مراجعة الأربعاء ١٨ نوفمبر ٢٠٢٦ · جداول الهندسة وماستر القاعات</p>
+        </div>
+      </div>
+      <div class="controls">
+        <label>الفترة المطلوبة
+          <select id="room-period">
+            <option value="all">عرض كل الفترات</option>
+            <option value="1">09:10 – 10:50</option>
+            <option value="2">11:10 – 12:50</option>
+            <option value="3">13:10 – 14:50</option>
+          </select>
+        </label>
+      </div>
+      <div class="room-grid" id="room-results" aria-live="polite">
+        <article class="room-card" data-periods="1 2 3">
+          <h3 dir="ltr">3405</h3>
+          <p>بلا حجز ظاهر في الفترات الثلاث</p>
+          <ul><li>09:10 – 10:50</li><li>11:10 – 12:50</li><li>13:10 – 14:50</li></ul>
+        </article>
+        <article class="room-card" data-periods="1">
+          <h3 dir="ltr">G025</h3>
+          <p>بلا حجز ظاهر في الفترة الأولى</p>
+          <ul><li>09:10 – 10:50</li></ul>
+        </article>
+      </div>
+      <p class="room-note">راجع مسؤول القاعات لتأكيد الإتاحة الفعلية والحجوزات الطارئة قبل الاستخدام. تشمل هذه القائمة القاعات التي أمكن التحقق منها لهذا اليوم.</p>
+    </section>
+
+    <section id="teaching" class="panel" aria-labelledby="teaching-title" hidden>
       <div class="section-head">
         <div><h2 id="teaching-title">جداول التدريس</h2><p>اختر القسم لعرض صفحاته من جدول الفصل الدراسي.</p></div>
         <a class="outline" href="assets/fall-2026-timetables.pdf">الجدول الكامل PDF</a>

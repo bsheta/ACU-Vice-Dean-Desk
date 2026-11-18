@@ -70,3 +70,10 @@ footer.shell { padding: 18px 0 28px; font-size: 13px; }
   .navigation a { padding: 7px 9px; font-size: 13px; }
   .timetable { padding: 5px; }
 }
+
+.room-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+.room-card { padding: 20px; border-radius: 12px; border: 1px solid #c1dbd5; background: #f0f8f6; }
+.room-card h3 { text-align: right; color: #12564f; font-size: 28px; }
+.room-card ul { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 12px 0 0; padding: 0; }
+.room-card li { direction: ltr; padding: 4px 9px; border-radius: 6px; background: #dceee9; font: 700 14px/1.6 Arial, sans-serif; }
+.room-note { margin-top: 16px; color: #50666c; font-size: 14px; }

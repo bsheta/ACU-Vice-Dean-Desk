@@ -6,7 +6,7 @@
   var panels = document.querySelectorAll('[data-panel]');
   function showPanel() {
     var requested = window.location.hash.slice(1);
-    var active = /^(teaching|exams|desk)$/.test(requested) ? requested : 'teaching';
+    var active = /^(rooms|teaching|exams|desk)$/.test(requested) ? requested : 'rooms';
     for (var i = 0; i < panels.length; i++) {
       var link = panels[i];
       var id = link.getAttribute('data-panel');
@@ -18,6 +18,18 @@
   }
   window.addEventListener('hashchange', showPanel);
   showPanel();
+
+  var roomPeriod = byId('room-period');
+  var roomCards = byId('room-results').querySelectorAll('[data-periods]');
+  function filterRooms() {
+    var period = roomPeriod.value;
+    for (var i = 0; i < roomCards.length; i++) {
+      var periods = roomCards[i].getAttribute('data-periods').split(' ');
+      roomCards[i].hidden = period !== 'all' && periods.indexOf(period) === -1;
+    }
+  }
+  roomPeriod.addEventListener('change', filterRooms);
+  filterRooms();
 
   var departmentPages = {arc: [1, 2], basic: [3, 4, 5], cbe: [6], ee: [7, 8, 9], me: [10, 11, 12, 13, 14]};
   var department = byId('department');
