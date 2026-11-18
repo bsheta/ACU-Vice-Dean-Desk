@@ -1,10 +1,85 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ACU Vice Dean Desk | M1A</title><link rel="stylesheet" href="style.css"></head><body>
-<div id="app">
-<header><div class="brand"><div class="brandmark">ACU</div><div><h1>Vice Dean Desk</h1><div class="subtitle">Education &amp; Student Affairs <span class="dot">•</span> M1A Prototype</div></div></div><div class="time"><strong id="clock">--:--</strong><span id="date">--</span></div></header>
-<div class="notice"><span class="demo">DEMO DATA</span> No official schedules or student records <span class="right" id="connection">Local preview</span></div>
-<nav><button id="nav-today" class="active" onclick="switchTab('today')">My Day</button><button id="nav-exams" onclick="switchTab('exams')">Exams</button><button id="nav-tasks" onclick="switchTab('tasks')">My Tasks</button><button id="nav-alerts" onclick="switchTab('alerts')">Alerts</button><button id="nav-assistant" onclick="switchTab('assistant')">Assistant</button></nav>
-<div class="stats"><div class="stat"><span>Upcoming events</span><b id="s-events">3</b></div><div class="stat"><span>Exam watch</span><b id="s-exams">2</b></div><div class="stat"><span>Open tasks</span><b id="s-tasks">3</b></div><div class="stat"><span>Verified alerts</span><b id="s-alerts">0</b></div></div>
-<main><section class="primary"><div class="panel"><div class="panelhead"><h2 id="main-title">My Academic Day</h2><span class="pill" id="context">Today</span></div><div id="main-content"></div></div></section><aside><div class="panel"><div class="panelhead"><h2>Next priority</h2><span class="small" id="mode">Morning</span></div><div id="priority"></div></div><div class="panel"><div class="panelhead"><h2>Examination Watch</h2><span class="pill amber">Illustrative</span></div><div id="exam-summary"></div></div><div class="panel"><div class="panelhead"><h2>Desk Status</h2></div><div class="small statusline">Display: <b>Online locally</b></div><div class="small statusline">Data: <b>Sample / not approved</b></div><div class="small statusline">Refresh ticks: <b id="ticks">0</b></div><button class="subbutton" onclick="testTouch()">Test touch</button> <span id="touch-result" class="small">Not tested</span></div></aside></main>
-<footer><span>ACU Vice Dean Desk · Legacy-compatible UI · No external dependencies</span><span id="footer-time">--</span></footer>
-</div><script src="app.js"></script></body></html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>مكتب وكيل كلية الهندسة | جامعة الأهرام الكندية</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="masthead">
+    <img class="faculty-logo" src="assets/engineering.png" alt="شعار كلية الهندسة" width="76" height="76">
+    <div class="identity"><strong>مكتب وكيل كلية الهندسة</strong><span>شؤون التعليم والطلاب</span></div>
+    <img class="university-logo" src="assets/university.png" alt="شعار جامعة الأهرام الكندية" width="94" height="76">
+  </header>
+
+  <main class="shell">
+    <section class="hero" aria-labelledby="term-title">
+      <div>
+        <p class="eyebrow">جامعة الأهرام الكندية · كلية الهندسة</p>
+        <h1 id="term-title">جداول خريف ٢٠٢٦</h1>
+        <p>الفصل الدراسي الأول · العام الجامعي ٢٠٢٦–٢٠٢٧</p>
+      </div>
+      <div class="clock"><time id="clock" dir="ltr">--:--</time><span>توقيت القاهرة</span></div>
+    </section>
+
+    <nav class="navigation" aria-label="أقسام المكتب">
+      <a href="#teaching" data-panel="teaching" aria-current="page">جداول التدريس</a>
+      <a href="#exams" data-panel="exams">امتحانات منتصف الفصل</a>
+      <a href="#desk" data-panel="desk">أدوات المكتب</a>
+    </nav>
+
+    <section id="teaching" class="panel" aria-labelledby="teaching-title">
+      <div class="section-head">
+        <div><h2 id="teaching-title">جداول التدريس</h2><p>اختر القسم لعرض صفحاته من جدول الفصل الدراسي.</p></div>
+        <a class="outline" href="assets/fall-2026-timetables.pdf">الجدول الكامل PDF</a>
+      </div>
+      <div class="controls">
+        <label>القسم أو البرنامج
+          <select id="department">
+            <option value="arc">الهندسة المعمارية</option>
+            <option value="basic">العلوم الأساسية</option>
+            <option value="cbe">هندسة التشييد والبناء</option>
+            <option value="ee">الهندسة الكهربائية</option>
+            <option value="me">الهندسة الميكانيكية</option>
+          </select>
+        </label>
+        <label>صفحة القسم <select id="sheet"></select></label>
+      </div>
+      <figure class="timetable">
+        <a id="full-sheet" href="assets/timetable-01.png"><img id="sheet-image" src="assets/timetable-01.png" alt="جدول الهندسة المعمارية، الصفحة الأولى"></a>
+        <figcaption id="sheet-caption" aria-live="polite"></figcaption>
+      </figure>
+    </section>
+
+    <section id="exams" class="panel" aria-labelledby="exams-title" hidden>
+      <div class="section-head">
+        <div><h2 id="exams-title">امتحانات منتصف الفصل</h2><p>جدول كلية الهندسة · خريف ٢٠٢٦</p></div>
+      </div>
+      <div class="controls">
+        <label>تاريخ الامتحان <select id="exam-date"><option value="">كل التواريخ</option></select></label>
+        <label class="search">بحث <input id="exam-search" type="search" placeholder="كود المقرر أو اسمه أو القاعة" autocomplete="off"></label>
+      </div>
+      <p id="result-count" class="caption" aria-live="polite"></p>
+      <div class="exam-table" tabindex="0" role="region" aria-label="نتائج جدول الامتحانات">
+        <table>
+          <thead><tr><th scope="col">التاريخ</th><th scope="col">الوقت</th><th scope="col">المقرر</th><th scope="col">القاعات</th></tr></thead>
+          <tbody id="exam-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="desk" class="panel" aria-labelledby="desk-title" hidden>
+      <h2 id="desk-title">أدوات المكتب</h2>
+      <div class="desk-grid">
+        <article><h3>مهام المكتب</h3><p>مراجعة تعديلات الجداول ومتابعة شؤون الطلاب وتجهيز الامتحانات.</p></article>
+        <article><h3>التنبيهات والمساعد</h3><p>ربط التنبيهات والمساعد قيد الإعداد.</p></article>
+        <article><h3>اختبار الشاشة</h3><button id="touch" class="outline" type="button">اختبار اللمس</button> <span id="touch-result" role="status"></span></article>
+      </div>
+    </section>
+  </main>
+  <footer class="shell">كلية الهندسة · جامعة الأهرام الكندية</footer>
+  <script src="assets/midterm.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
