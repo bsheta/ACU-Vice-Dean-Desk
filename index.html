@@ -17,89 +17,66 @@
     <section class="hero" aria-labelledby="term-title">
       <div>
         <p class="eyebrow">جامعة الأهرام الكندية · كلية الهندسة</p>
-        <h1 id="term-title">القاعات المتاحة اليوم</h1>
+        <h1 id="term-title">لوحة اليوم الدراسي</h1>
         <p>الفصل الدراسي الأول · العام الجامعي ٢٠٢٦–٢٠٢٧</p>
       </div>
       <div class="clock"><time id="clock" dir="ltr">--:--</time><span>توقيت القاهرة</span></div>
     </section>
 
+    <div class="day-bar">
+      <label>تاريخ العرض <input id="view-date" type="date"></label>
+      <button id="today" class="outline" type="button">اليوم</button>
+      <strong id="day-label" aria-live="polite"></strong>
+    </div>
     <nav class="navigation" aria-label="أقسام المكتب">
-      <a href="#rooms" data-panel="rooms" aria-current="page">القاعات المتاحة</a>
-      <a href="#teaching" data-panel="teaching">جداول التدريس</a>
-      <a href="#exams" data-panel="exams">امتحانات منتصف الفصل</a>
+      <a href="#teaching" data-panel="teaching" aria-current="page">محاضرات اليوم</a>
+      <a href="#rooms" data-panel="rooms">إتاحة القاعات</a>
+      <a href="#exams" data-panel="exams">امتحانات اليوم</a>
       <a href="#desk" data-panel="desk">أدوات المكتب</a>
     </nav>
 
-    <section id="rooms" class="panel" aria-labelledby="rooms-title">
+    <section id="teaching" class="panel" aria-labelledby="teaching-title">
       <div class="section-head">
-        <div>
-          <h2 id="rooms-title">القاعات بلا حجز ظاهر</h2>
-          <p>مراجعة الأربعاء ١٨ نوفمبر ٢٠٢٦ · جداول الهندسة وماستر القاعات</p>
-        </div>
+        <div><h2 id="teaching-title">محاضرات اليوم</h2><p>الجدول الأسبوعي لكلية الهندسة · المحاضرات والتمارين والمعامل المسجلة</p></div>
       </div>
       <div class="controls">
-        <label>الفترة المطلوبة
-          <select id="room-period">
-            <option value="all">عرض كل الفترات</option>
-            <option value="1">09:10 – 10:50</option>
-            <option value="2">11:10 – 12:50</option>
-            <option value="3">13:10 – 14:50</option>
-          </select>
-        </label>
+        <label class="search">بحث <input id="lesson-search" type="search" placeholder="المقرر أو القاعة" autocomplete="off"></label>
       </div>
-      <div class="room-grid" id="room-results" aria-live="polite">
-        <article class="room-card" data-periods="1 2 3">
-          <h3 dir="ltr">3405</h3>
-          <p>بلا حجز ظاهر في الفترات الثلاث</p>
-          <ul><li>09:10 – 10:50</li><li>11:10 – 12:50</li><li>13:10 – 14:50</li></ul>
-        </article>
-        <article class="room-card" data-periods="1">
-          <h3 dir="ltr">G025</h3>
-          <p>بلا حجز ظاهر في الفترة الأولى</p>
-          <ul><li>09:10 – 10:50</li></ul>
-        </article>
+      <p class="caption" id="lesson-count" aria-live="polite"></p>
+      <div class="exam-table" tabindex="0" role="region" aria-label="جدول التدريس">
+        <table><thead><tr><th scope="col">الوقت</th><th scope="col">المقرر والنشاط</th><th scope="col">القاعة</th><th scope="col">المبنى</th></tr></thead><tbody id="lesson-rows"></tbody></table>
       </div>
-      <p class="room-note">راجع مسؤول القاعات لتأكيد الإتاحة الفعلية والحجوزات الطارئة قبل الاستخدام. تشمل هذه القائمة القاعات التي أمكن التحقق منها لهذا اليوم.</p>
+      <p class="room-note">أوقات التدريس من سجل الهندسة بالماستر. قد تختلف بعض تفاصيل جداول الأقسام أو التغييرات اليومية. راجع القسم عند وجود تعارض.</p>
     </section>
 
-    <section id="teaching" class="panel" aria-labelledby="teaching-title" hidden>
+    <section id="rooms" class="panel" aria-labelledby="rooms-title" hidden>
       <div class="section-head">
-        <div><h2 id="teaching-title">جداول التدريس</h2><p>اختر القسم لعرض صفحاته من جدول الفصل الدراسي.</p></div>
-        <a class="outline" href="assets/fall-2026-timetables.pdf">الجدول الكامل PDF</a>
+        <div><h2 id="rooms-title">إتاحة القاعات</h2><p>القاعات التي لا يظهر لها حجز متداخل في بيانات اليوم</p></div>
       </div>
       <div class="controls">
-        <label>القسم أو البرنامج
-          <select id="department">
-            <option value="arc">الهندسة المعمارية</option>
-            <option value="basic">العلوم الأساسية</option>
-            <option value="cbe">هندسة التشييد والبناء</option>
-            <option value="ee">الهندسة الكهربائية</option>
-            <option value="me">الهندسة الميكانيكية</option>
-          </select>
-        </label>
-        <label>صفحة القسم <select id="sheet"></select></label>
+        <label>الفترة المطلوبة <select id="room-period">
+          <option value="540,900">اليوم الدراسي · 09:00–15:00</option>
+          <option value="550,650">الفترة الأولى · 09:10–10:50</option>
+          <option value="670,770">الفترة الثانية · 11:10–12:50</option>
+          <option value="790,890">الفترة الثالثة · 13:10–14:50</option>
+        </select></label>
       </div>
-      <figure class="timetable">
-        <a id="full-sheet" href="assets/timetable-01.png"><img id="sheet-image" src="assets/timetable-01.png" alt="جدول الهندسة المعمارية، الصفحة الأولى"></a>
-        <figcaption id="sheet-caption" aria-live="polite"></figcaption>
-      </figure>
+      <p class="caption" id="room-count" aria-live="polite"></p>
+      <div class="room-grid" id="room-results"></div>
+      <p class="room-note">الحساب يغطي القاعات والمعامل المدرجة في سجل الهندسة، ويأخذ في الحسبان حجوزات الكليات الأخرى المسجلة وامتحانات التاريخ المختار. الإتاحة حسب الجدول؛ أكّدها مع مسؤول الحجز قبل الاستخدام.</p>
     </section>
 
     <section id="exams" class="panel" aria-labelledby="exams-title" hidden>
       <div class="section-head">
-        <div><h2 id="exams-title">امتحانات منتصف الفصل</h2><p>جدول كلية الهندسة · خريف ٢٠٢٦</p></div>
+        <div><h2 id="exams-title">امتحانات اليوم</h2><p>جدول منتصف الفصل وتكليفات المراقبة · ١–١٢ نوفمبر ٢٠٢٦</p></div>
+        <label>انتقال إلى يوم امتحان <select id="exam-date"><option value="">اختر يومًا</option></select></label>
       </div>
-      <div class="controls">
-        <label>تاريخ الامتحان <select id="exam-date"><option value="">كل التواريخ</option></select></label>
-        <label class="search">بحث <input id="exam-search" type="search" placeholder="كود المقرر أو اسمه أو القاعة" autocomplete="off"></label>
-      </div>
+      <div class="controls"><label class="search">بحث <input id="exam-search" type="search" placeholder="المقرر أو القاعة أو المراقب" autocomplete="off"></label></div>
       <p id="result-count" class="caption" aria-live="polite"></p>
-      <div class="exam-table" tabindex="0" role="region" aria-label="نتائج جدول الامتحانات">
-        <table>
-          <thead><tr><th scope="col">التاريخ</th><th scope="col">الوقت</th><th scope="col">المقرر</th><th scope="col">القاعات</th></tr></thead>
-          <tbody id="exam-rows"></tbody>
-        </table>
+      <div class="exam-table" tabindex="0" role="region" aria-label="جدول الامتحانات والمراقبين">
+        <table><thead><tr><th scope="col">الوقت</th><th scope="col">المقرر</th><th scope="col">القاعة</th><th scope="col">المراقبون</th></tr></thead><tbody id="exam-rows"></tbody></table>
       </div>
+      <p class="room-note">النجمة بجانب الاسم تعني أن القاعة صُححت في كشف التوزيع. تعرض الواجهة حالة المطابقة لكل قاعة.</p>
     </section>
 
     <section id="desk" class="panel" aria-labelledby="desk-title" hidden>
@@ -112,7 +89,7 @@
     </section>
   </main>
   <footer class="shell">كلية الهندسة · جامعة الأهرام الكندية</footer>
-  <script src="assets/midterm.js"></script>
+  <script src="assets/operations.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
