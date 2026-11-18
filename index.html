@@ -4,7 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title data-en="Engineering Vice Dean’s Office | Ahram Canadian University">مكتب وكيل كلية الهندسة | جامعة الأهرام الكندية</title>
-  <link rel="stylesheet" href="style.css?v=dabf7182c9a2">
+  <meta name="theme-color" content="#10434a">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="style.css?v=bd2e571812a7">
 </head>
 <body>
   <header class="masthead">
@@ -21,6 +24,27 @@
         <p data-en="Fall semester · Academic year 2026–2027">الفصل الدراسي الأول · العام الجامعي ٢٠٢٦–٢٠٢٧</p>
       </div>
       <div class="clock"><time id="clock" dir="ltr">--:--</time><span data-en="Cairo time">توقيت القاهرة</span></div>
+    </section>
+
+    <section class="widgets" aria-label="الآن" data-en-aria-label="Right now">
+      <a class="widget" href="#teaching" data-widget="teaching">
+        <h2 data-en="Classes now">المحاضرات الآن</h2>
+        <p class="widget-summary" id="now-teaching-summary"></p>
+        <ul id="now-teaching"></ul>
+        <span class="widget-action" data-en="View today’s classes">عرض كل محاضرات اليوم</span>
+      </a>
+      <a class="widget" href="#exams" data-widget="exams">
+        <h2 data-en="Exams now">الامتحانات الآن</h2>
+        <p class="widget-summary" id="now-exams-summary"></p>
+        <ul id="now-exams"></ul>
+        <span class="widget-action" data-en="View today’s exams">عرض كل امتحانات اليوم</span>
+      </a>
+      <a class="widget" href="#rooms" data-widget="rooms">
+        <h2 data-en="Rooms now">القاعات الآن</h2>
+        <p class="widget-summary" id="now-rooms-summary"></p>
+        <ul id="now-rooms"></ul>
+        <span class="widget-action" data-en="Check today’s room availability">عرض إتاحة القاعات اليوم</span>
+      </a>
     </section>
 
     <div class="day-bar">
@@ -94,6 +118,6 @@
   </main>
   <footer class="shell" data-en="Faculty of Engineering · Ahram Canadian University">كلية الهندسة · جامعة الأهرام الكندية</footer>
   <script src="assets/operations.js?v=7991000e5b36"></script>
-  <script src="app.js?v=20044609b892"></script>
+  <script src="app.js?v=e66d2ffc011a"></script>
 </body>
 </html>

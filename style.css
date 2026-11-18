@@ -96,3 +96,17 @@ footer.shell { padding: 18px 0 28px; font-size: 13px; }
   :root[dir=ltr] .hero .clock { right: auto; }
   .language-switch { margin-inline-start: 0; }
 }
+
+.widgets { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.widget { display: flex; min-width: 0; flex-direction: column; align-items: stretch; padding: 14px 16px; border: 1px solid #cbdcda; border-top: 3px solid #176761; border-radius: 10px; background: #fff; text-decoration: none; }
+.widget:hover { border-color: #76a7a0; background: #f9fcfb; }
+.widget h2 { font-size: 18px; }
+.widget-summary { margin-top: 4px; color: #426269; font-size: 14px; }
+.widget ul { list-style: none; padding: 0; margin: 6px 0 0; }
+.widget li { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 14px; padding-block: 2px; }
+.widget-action { margin-top: auto; padding-top: 10px; color: #145a55; font-size: 14px; font-weight: 600; }
+.widget:hover .widget-action { text-decoration: underline; }
+@media (max-width: 720px) {
+  .widgets { grid-template-columns: 1fr; gap: 8px; }
+  .widget { padding: 10px 13px; }
+}

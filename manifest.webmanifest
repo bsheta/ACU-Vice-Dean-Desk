@@ -1,0 +1,15 @@
+{
+  "id": "./",
+  "name": "ACU Vice Dean Desk",
+  "short_name": "ACU Desk",
+  "description": "Daily classes, exams and room availability at the ACU Faculty of Engineering",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f6f6",
+  "theme_color": "#10434a",
+  "icons": [
+    {"src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}

@@ -40,6 +40,7 @@
     Object.keys(examDays).forEach(function (iso, index) { examDate.options[index + 1].text = dateLabel(iso); });
     if (byId('touch-result').textContent) renderTouchResult();
     renderDay();
+    updateClock(true);
   }
   var dateInput = byId('view-date');
   var examDate = byId('exam-date');
@@ -48,7 +49,7 @@
   var cairoDate = new Intl.DateTimeFormat('en-CA', {timeZone: 'Africa/Cairo', year: 'numeric', month: '2-digit', day: '2-digit'});
   var cairoTime = new Intl.DateTimeFormat('en-GB', {timeZone: 'Africa/Cairo', hour: '2-digit', minute: '2-digit'});
 
-  function today() { return cairoDate.format(new Date()); }
+  function today(now) { return cairoDate.format(now || new Date()); }
   function weekday(iso) { return new Date(iso + 'T12:00:00Z').getUTCDay(); }
   function dateLabel(iso) { return days[language][weekday(iso)] + ' · ' + iso.split('-').reverse().join('/'); }
   function clockLabel(minutes) {
@@ -99,10 +100,8 @@
     byId('lesson-count').textContent = rows.length ? rows.length + translate(' بند تدريس مطابق للعرض', rows.length === 1 ? ' matching class' : ' matching classes') : translate('لا توجد بنود تدريس مطابقة في السجل.', 'No matching classes in the schedule.');
   }
 
-  function renderRooms() {
-    var iso = dateInput.value;
+  function availableRooms(iso, period) {
     var day = weekday(iso);
-    var period = byId('room-period').value.split(',').map(Number);
     var reserved = {};
     function block(room, start, end) {
       if (start < period[1] && end > period[0]) reserved[room] = true;
@@ -111,9 +110,14 @@
     operations.busy.forEach(function (row) { if (row[0] === day) block(row[1], row[2], row[3]); });
     operations.exams.forEach(function (row) { if (row[0] === iso) block(row[3], row[1], row[2]); });
 
+    return Object.keys(operations.rooms).sort().filter(function (room) { return !reserved[room]; });
+  }
+
+  function renderRooms() {
     var target = byId('room-results');
     target.textContent = '';
-    var available = Object.keys(operations.rooms).sort().filter(function (room) { return !reserved[room]; });
+    var period = byId('room-period').value.split(',').map(Number);
+    var available = availableRooms(dateInput.value, period);
     available.forEach(function (room) {
       var data = operations.rooms[room];
       var card = document.createElement('article');
@@ -157,7 +161,67 @@
     renderExams();
   }
   function showToday() { dateInput.value = today(); renderDay(); }
-  function updateClock() { clock.textContent = cairoTime.format(new Date()); }
+  var lastWidgetMinute = '';
+  function renderWidget(id, summary, items) {
+    byId(id + '-summary').textContent = summary;
+    var list = byId(id);
+    list.textContent = '';
+    items.slice(0, 3).forEach(function (label) {
+      var item = document.createElement('li');
+      item.dir = 'auto';
+      item.textContent = label;
+      list.appendChild(item);
+    });
+  }
+
+  function renderNow(iso, minute) {
+    var day = weekday(iso);
+    function isRunning(start, end) { return start <= minute && minute < end; }
+    function summary(count, ar, en, single, emptyAr, emptyEn) {
+      return count ? count + translate(ar, count === 1 ? single : en) : translate(emptyAr, emptyEn);
+    }
+
+    var classes = operations.lessons.filter(function (row) {
+      return row[0] === day && isRunning(row[1], row[2]);
+    }).map(function (row) { return row[3] + ' · ' + row[4]; });
+    var exams = operations.exams.filter(function (row) {
+      return row[0] === iso && isRunning(row[1], row[2]);
+    }).map(function (row) { return row[3] + ' · ' + row[4] + ' · ' + row[5]; });
+    var duringDay = day <= 4 && minute >= 540 && minute < 900;
+    var rooms = duringDay ? availableRooms(iso, [minute, minute + 1]) : [];
+
+    renderWidget('now-teaching', summary(classes.length, ' بنود تدريس جارية', ' classes in progress', ' class in progress',
+      'لا توجد محاضرات جارية في السجل', 'No classes in progress'), classes);
+    renderWidget('now-exams', summary(exams.length, ' قاعات امتحان نشطة', ' active exam-room entries', ' active exam-room entry',
+      'لا توجد امتحانات جارية في السجل', 'No exams in progress'), exams);
+    renderWidget('now-rooms', duringDay ?
+      summary(rooms.length, ' قاعة أو معمل بلا حجز ظاهر', ' rooms or labs with no recorded booking', ' room or lab with no recorded booking',
+        'لا تظهر قاعات متاحة الآن', 'No rooms appear available now') :
+      translate('خارج أيام أو ساعات التدريس', 'Outside scheduled teaching hours'), rooms);
+  }
+
+  function openWidget(event) {
+    event.preventDefault();
+    var panel = event.currentTarget.getAttribute('data-widget');
+    if (panel === 'teaching') byId('lesson-search').value = '';
+    if (panel === 'exams') byId('exam-search').value = '';
+    showToday();
+    window.location.hash = panel;
+    showPanel();
+    byId(panel).scrollIntoView();
+  }
+
+  function updateClock(force) {
+    var now = new Date();
+    var display = cairoTime.format(now);
+    var iso = today(now);
+    var key = iso + ' ' + display;
+    if (force !== true && key === lastWidgetMinute) return;
+    lastWidgetMinute = key;
+    clock.textContent = display;
+    var parts = display.split(':').map(Number);
+    renderNow(iso, parts[0] * 60 + parts[1]);
+  }
 
   window.addEventListener('hashchange', showPanel);
   dateInput.addEventListener('change', renderDay);
@@ -174,8 +238,8 @@
     button.addEventListener('click', function () { setLanguage(button.getAttribute('data-language')); });
   });
   try { language = localStorage.getItem('acu-desk-language'); } catch (error) { /* Storage can be disabled. */ }
+  document.querySelectorAll('[data-widget]').forEach(function (link) { link.addEventListener('click', openWidget); });
   setLanguage(language);
   showPanel();
-  updateClock();
   window.setInterval(updateClock, 1000);
 }());
